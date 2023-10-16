@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import userRoute from "./routes/userRoute.js";
 
 // configurations
 dotenv.config();
@@ -14,16 +15,21 @@ app.use(cookieParser());
 app.use(cors());
 
 //routes
-
+app.use("/api/user", userRoute);
 //mongoose setup
 const PORT = process.env.PORT;
 mongoose
-  .connect(process.env.MONGO)
+  .connect(process.env.MONGO, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
-    app.listen(() => {
-      console.log(`database connected server is running on ${PORT}`);
-    });
+    console.log(`database connected `);
   })
   .catch((err) => {
-    console.log("did not connected");
+    console.log(` ${err} did not connected`);
   });
+
+app.listen(PORT, () => {
+  console.log(`Server is running on ${PORT}`);
+});
