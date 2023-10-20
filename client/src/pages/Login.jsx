@@ -76,7 +76,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className=" h-10 w-full rounded-3xl bg-blue-900 text-white transition-all duration-300 hover: bg-blue-800"
+              className=" border-white-500 group m-auto my-5 inline-flex h-12 w-[320px] items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 hover:border-black hover:bg-blue-800 focus:outline-none text-white font-bold"
             >
               Login
             </button>
