@@ -1,14 +1,49 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsGithub } from "react-icons/bs";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [visible, setVisible] = useState("");
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const url = "http://localhost:5000/api/user/signin";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        setLoading(false);
+        setError(error.message);
+        return;
+      }
+      setLoading(false);
+      setError(null);
+      navigate("/");
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -26,18 +61,20 @@ const Login = () => {
           <h2 className="text-center text-white text-2xl mt-[-80px]">
             Login to Your Account
           </h2>
-          <form action="#" className="mt-10 space-y-8 px-10 py-10 text-center">
+          <form
+            onSubmit={handleSubmit}
+            className="mt-10 space-y-8 px-10 py-10 text-center"
+          >
             <div className="group relative">
               <input
                 type="text"
                 id="email"
                 autoComplete="email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
+                onChange={handleChange}
                 required
                 className="peer h-12 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none "
               />
-              {/* a */}
+
               <label
                 htmlFor="email"
                 className="absolute left-1/3 top-0 flex h-full transform items-center pl-2 text-base transition-all duration-300 group-focus-within:-top-7 group-focus-within:h-1/2 group-focus-within:pl-0 group-focus-within:text-base group-focus-within:text-white peer-valid:-top-7 peer-valid:h-1/2 peer-valid:pl-0 peer-valid:text-base peer-valid:text-white"
@@ -49,8 +86,7 @@ const Login = () => {
               <input
                 type={visible ? "text" : "password"}
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handleChange}
                 required
                 className="peer h-12 w-full rounded-3xl bg-gray-100 px-4 text-sm outline-none"
               />
@@ -78,7 +114,7 @@ const Login = () => {
               type="submit"
               className=" border-white-500 group m-auto my-5 inline-flex h-12 w-[320px] items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 hover:border-black hover:bg-blue-800 focus:outline-none text-white font-bold"
             >
-              Login
+              {loading ? "Loading" : "Login"}
             </button>
           </form>
           <p className="gap-2 text-center text-white">
