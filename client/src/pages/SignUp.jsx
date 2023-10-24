@@ -8,8 +8,9 @@ const SignUp = () => {
   const [visible, setVisible] = useState("");
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
-  const Navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const Navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
