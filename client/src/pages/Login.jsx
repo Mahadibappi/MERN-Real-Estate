@@ -1,15 +1,23 @@
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BsGithub } from "react-icons/bs";
+import { BiLogoGoogle } from "react-icons/bi";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  signInFail,
+  signInSuccess,
+  singInStart,
+} from "../redux/user/userSlice";
+import Oauth from "../components/Oauth.jsx";
 
 const Login = () => {
   const [visible, setVisible] = useState("");
   const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { loading, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({
@@ -21,7 +29,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch(singInStart());
       const url = "http://localhost:5000/api/user/signin";
       const res = await fetch(url, {
         method: "POST",
@@ -32,16 +40,13 @@ const Login = () => {
       });
       const data = await res.json();
       if (data.success === false) {
-        setLoading(false);
-        setError(error.message);
+        dispatch(signInFail(data.message));
         return;
       }
-      setLoading(false);
-      setError(null);
+      dispatch(signInSuccess(data));
       navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(error.message);
+      dispatch(signInFail(error.message));
     }
   };
 
@@ -112,7 +117,7 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className=" border-white-500 group m-auto my-5 inline-flex h-12 w-[320px] items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 hover:border-black hover:bg-blue-800 focus:outline-none text-white font-bold"
+              className=" border-white-500 group m-auto  inline-flex h-12 w-[320px] items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 hover:border-black hover:bg-blue-800 focus:outline-none text-white font-bold"
             >
               {loading ? "Loading" : "Login"}
             </button>
@@ -126,14 +131,13 @@ const Login = () => {
               Sign up
             </Link>
           </p>
-          <Link
-            to={"https://github.com"}
-            className="border-white-500 group m-auto my-5 inline-flex h-12 w-[320px] items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 hover:border-black hover:bg-blue-800 focus:outline-none"
-          >
+          <Link className="border-white-500 group m-auto my-5 inline-flex h-12 w-[320px] items-center justify-center space-x-2 rounded-3xl border px-4 py-2 transition-colors duration-300 hover:border-black hover:bg-blue-800 focus:outline-none">
             <span className="h-2.6 w-5 fill-current text-white">
-              <BsGithub />
+              <BiLogoGoogle />
             </span>
-            <span className="text-sm font-medium text-white">Github</span>
+            <span className="text-sm font-medium text-white">
+              <Oauth />
+            </span>
           </Link>
         </div>
       </div>
