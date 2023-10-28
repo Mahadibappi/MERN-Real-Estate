@@ -1,10 +1,32 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { app } from "../firebase.js";
+import { useDispatch } from "react-redux";
+import { signInSuccess } from "../redux/user/userSlice.js";
 
 const Oauth = () => {
-  const handleClick = () => {
+  const dispatch = useDispatch();
+  const handleClick = async () => {
     try {
-      console.log("confirm google");
+      const provider = new GoogleAuthProvider();
+      const auth = getAuth(app);
+      const result = await signInWithPopup(auth, provider);
+      const url = "http://localhost:5000/api/user/google";
+      const res = fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: result.user.displayName,
+          email: result.user.email,
+          photo: result.user.photoURL,
+        }),
+      });
+      const data = await res.json();
+      dispatch(signInSuccess(data));
+      console.log(data);
     } catch (error) {
       console.log(`could not sing in`, error);
     }
