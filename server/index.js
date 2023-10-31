@@ -20,6 +20,7 @@ app.use(cors());
 //routes
 app.use("/api/user", userRoute);
 app.use("/api/user", signupRoute);
+
 //mongoose setup
 const PORT = process.env.PORT;
 mongoose
