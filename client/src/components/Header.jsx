@@ -1,9 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <header>
       <nav className="bg-gray-500 flex justify-around items-center  mx-auto py-3">
@@ -29,8 +32,16 @@ const Header = () => {
           <Link to="/about">
             <li className="hidden sm:inline">About</li>
           </Link>
-          <Link to="/login">
-            <li>SignIn</li>
+          <Link to="/profile">
+            {currentUser ? (
+              <img
+                className="rounded-full object-cover w-8 h-8"
+                src={currentUser.avatar}
+                alt="profile"
+              />
+            ) : (
+              <li>SignIn</li>
+            )}
           </Link>
         </ul>
       </nav>
