@@ -1,3 +1,10 @@
 {
-  "cSpell.words": ["Cotroller", "reduxjs", "signin", "signup"]
+  "cSpell.words": [
+    "Cotroller",
+    "persistor",
+    "presistor",
+    "reduxjs",
+    "signin",
+    "signup"
+  ]
 }
