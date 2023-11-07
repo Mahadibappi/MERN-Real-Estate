@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser.avatar);
 
   return (
     <header>
