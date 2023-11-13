@@ -5,6 +5,7 @@
     "presistor",
     "reduxjs",
     "signin",
-    "signup"
+    "signup",
+    "toastify"
   ]
 }

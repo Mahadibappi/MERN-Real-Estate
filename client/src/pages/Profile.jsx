@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -8,6 +8,12 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
+import {
+  userUpdateStart,
+  userUpdateFail,
+  userUpdateSuccess,
+} from "../redux/user/userSlice.js";
+import { toast } from "react-toastify";
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
   const fileRef = useRef(null);
@@ -15,6 +21,7 @@ const Profile = () => {
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (file) {
@@ -34,7 +41,7 @@ const Profile = () => {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setFilePerc(Math.round(progress));
       },
-      (error) => {
+      () => {
         setFileUploadError(true);
       },
       () => {
@@ -44,10 +51,48 @@ const Profile = () => {
       }
     );
   };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  const notify = () => {
+    toast.success("User update successful", {
+      position: "top-center",
+      autoClose: 2000,
+      theme: "colored",
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(userUpdateStart());
+      const res = await fetch(
+        `http://localhost:5000/api/user/update/${currentUser._id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(userUpdateFail(data.message));
+        return;
+      }
+
+      dispatch(userUpdateSuccess(data));
+    } catch (error) {
+      dispatch(userUpdateFail(error.message));
+    }
+  };
+
   return (
     <div className="p-3 max-w-md mx-auto">
       <h1 className="text-center text-2xl my-10 font-semibold">Profile</h1>
-      <form className=" flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className=" flex flex-col gap-4">
         <input
           onChange={(e) => setFile(e.target.files[0])}
           type="file"
@@ -75,24 +120,32 @@ const Profile = () => {
           )}
         </p>
         <input
+          onChange={handleChange}
           className="outline-none p-2 border rounded-full text-center font-semibold focus-within:shadow"
           type="text"
+          defaultValue={currentUser?.name}
           placeholder="Name"
           id="name"
         />
         <input
+          onChange={handleChange}
           className="outline-none p-2 border rounded-full text-center font-semibold"
           type="email"
+          defaultValue={currentUser?.email}
           placeholder="Email"
           id="email"
         />
         <input
+          onChange={handleChange}
           className="outline-none p-2 border rounded-full text-center font-semibold"
           type="password"
           placeholder="Password"
           id="password"
         />
-        <button className="mt-6 bg-green-500 w-full p-2 rounded-full text-white font-semibold">
+        <button
+          className="mt-6 bg-green-500 w-full p-2 rounded-full text-white font-semibold"
+          onClick={notify}
+        >
           Update
         </button>
         <button className="mt-2 bg-gray-600 w-full p-2 rounded-full text-white font-semibold">
