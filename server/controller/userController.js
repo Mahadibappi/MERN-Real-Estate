@@ -34,3 +34,13 @@ export const updateUser = async (req, res, next) => {
     console.log(error.message);
   }
 };
+
+export const deleteUser = async (req, res, next) => {
+  try {
+    const removeUser = req.params.id;
+    await User.findByIdAndDelete(removeUser);
+    res.status(200).json("User deleted successfully");
+  } catch (error) {
+    next(error.message);
+  }
+};

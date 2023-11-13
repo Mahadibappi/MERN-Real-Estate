@@ -12,6 +12,9 @@ import {
   userUpdateStart,
   userUpdateFail,
   userUpdateSuccess,
+  deleteFail,
+  deleteStart,
+  deleteSuccess,
 } from "../redux/user/userSlice.js";
 import { toast } from "react-toastify";
 const Profile = () => {
@@ -55,14 +58,17 @@ const Profile = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
-  const notify = () => {
-    toast.success("User update successful", {
+
+  // notification function
+  const notify = (message) => {
+    toast.success(message, {
       position: "top-center",
       autoClose: 2000,
       theme: "colored",
     });
   };
 
+  // user update function
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -86,6 +92,25 @@ const Profile = () => {
       dispatch(userUpdateSuccess(data));
     } catch (error) {
       dispatch(userUpdateFail(error.message));
+    }
+  };
+
+  // user delete function
+  const handleDelete = async () => {
+    try {
+      dispatch(deleteStart());
+      const url = `http://localhost:5000/api/user/delete/${currentUser._id}`;
+      const res = await fetch(url, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteFail(data.message));
+        return;
+      }
+      dispatch(deleteSuccess(data));
+    } catch (error) {
+      dispatch(deleteFail(error.message));
     }
   };
 
@@ -144,7 +169,7 @@ const Profile = () => {
         />
         <button
           className="mt-6 bg-green-500 w-full p-2 rounded-full text-white font-semibold"
-          onClick={notify}
+          onClick={() => notify("User update successful")}
         >
           Update
         </button>
@@ -153,7 +178,13 @@ const Profile = () => {
         </button>
       </form>
       <div className="flex justify-between my-2">
-        <span className="bg-red-500 px-2 p-1 rounded-full font-semibold text-gray-300 m-1 cursor-pointer">
+        <span
+          onClick={() => {
+            notify("Account deleted successfully");
+            handleDelete();
+          }}
+          className="bg-red-500 px-2 p-1 rounded-full font-semibold text-gray-300 m-1 cursor-pointer"
+        >
           Delete Account
         </span>
         <span className="bg-green-500 px-2 p-1 rounded-full font-semibold text-gray-300 m-1 cursor-pointer">
