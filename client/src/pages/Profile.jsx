@@ -15,6 +15,9 @@ import {
   deleteFail,
   deleteStart,
   deleteSuccess,
+  logOutFail,
+  logOutSuccess,
+  logOutStart,
 } from "../redux/user/userSlice.js";
 import { toast } from "react-toastify";
 const Profile = () => {
@@ -92,6 +95,23 @@ const Profile = () => {
       dispatch(userUpdateSuccess(data));
     } catch (error) {
       dispatch(userUpdateFail(error.message));
+    }
+  };
+
+  //log out functions
+  const handleLogOut = async () => {
+    try {
+      dispatch(logOutStart());
+      const url = "http://localhost:5000/api/user/signuot";
+      const res = await fetch(url);
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(logOutFail(data.message));
+        return;
+      }
+      dispatch(logOutSuccess(data));
+    } catch (error) {
+      dispatch(logOutFail(error.message));
     }
   };
 
@@ -183,11 +203,14 @@ const Profile = () => {
             notify("Account deleted successfully");
             handleDelete();
           }}
-          className="bg-red-500 px-2 p-1 rounded-full font-semibold text-gray-300 m-1 cursor-pointer"
+          className="bg-red-500 p-2 rounded-full  text-gray-300 m-1 cursor-pointer"
         >
           Delete Account
         </span>
-        <span className="bg-green-500 px-2 p-1 rounded-full font-semibold text-gray-300 m-1 cursor-pointer">
+        <span
+          onClick={handleLogOut}
+          className="bg-green-500 p-2 px-4 rounded-full  text-gray-300 m-1 cursor-pointer"
+        >
           Log Out
         </span>
       </div>
