@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import userRoute from "./routes/userRoute.js";
 import signupRoute from "./routes/signupRoute.js";
+import listingRoute from "./routes/listingRoute.js";
 
 // configurations
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(
 //routes
 app.use("/api/user", userRoute);
 app.use("/api/user", signupRoute);
+app.use("/api/listing", listingRoute);
 
 //mongoose setup
 const PORT = process.env.PORT;
