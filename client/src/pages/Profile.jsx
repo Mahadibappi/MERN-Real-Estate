@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -193,9 +194,11 @@ const Profile = () => {
         >
           Update
         </button>
-        <button className="mt-2 bg-gray-600 w-full p-2 rounded-full text-white font-semibold">
-          Create Listing
-        </button>
+        <Link to="/create-listing">
+          <button className="mt-2 bg-gray-600 w-full p-2 rounded-full text-white font-semibold">
+            Create Listing
+          </button>
+        </Link>
       </form>
       <div className="flex justify-between my-2">
         <span
