@@ -12,11 +12,26 @@ const Listing = () => {
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({
     imageUrls: [],
+    name: "",
+    description: "",
+    address: "",
+    type: "sale",
+    bedrooms: 1,
+    bathrooms: 1,
+    regularPrice: 50,
+    discountPrice: 0,
+    offer: false,
+    parking: false,
+    furnished: false,
   });
+
   const [imageError, setImageError] = useState(false);
-  // imge upload functions
+  const [loading, setLoading] = useState(false);
+
+  // image upload functions
   const handleFiles = (e) => {
     if (files.length > 0 && files.length < 7) {
+      setLoading(true);
       const promises = [];
       for (let i = 0; i < files.length; i++) {
         promises.push(storeImage(files[i]));
@@ -28,12 +43,15 @@ const Listing = () => {
             imageUrls: formData.imageUrls.concat(urls),
           });
           setImageError(false);
+          setLoading(false);
         })
         .catch((error) => {
           setImageError("Image upload failed (max image size 2mb )");
+          setLoading(false);
         });
     } else {
       setImageError("You can only upload 6 Images per list");
+      setLoading(false);
     }
   };
   const storeImage = async (file) => {
@@ -67,6 +85,41 @@ const Listing = () => {
       imageUrls: formData.imageUrls.filter((_, i) => i !== index),
     });
   };
+  // form submit functions
+  console.log(formData);
+
+  const handleChange = (e) => {
+    if (e.target.id === "sale" || e.target.id === "rent") {
+      setFormData({
+        ...formData,
+        type: e.target.id,
+      });
+    }
+
+    if (
+      e.target.id === "parking" ||
+      e.target.id === "furnished" ||
+      e.target.id === "offer"
+    ) {
+      setFormData({
+        ...formData,
+        [e.target.id]: e.target.checked,
+      });
+    }
+
+    if (
+      e.target.type === "number" ||
+      e.target.type === "text" ||
+      e.target.type === "textarea"
+    ) {
+      setFormData({
+        ...formData,
+        [e.target.id]: e.target.value,
+      });
+    }
+  };
+  const handleSubmit = () => {};
+
   return (
     <main className="p-4 max-w-4xl mx-auto">
       <h1 className="text-center text-4xl p-3 font-semibold mt-5">
@@ -79,13 +132,17 @@ const Listing = () => {
             className=" px-5 py-2 rounded-lg font-semibold outline-none"
             type="text"
             placeholder="name"
+            onChange={handleChange}
+            value={formData.name}
             id="name"
             required
           />
           <textarea
             className=" px-5 py-2 rounded-lg font-semibold outline-none"
-            type="text"
+            type="textarea"
             placeholder="description"
+            onChange={handleChange}
+            value={formData.description}
             id="description"
             required
           />
@@ -94,29 +151,61 @@ const Listing = () => {
             type="text"
             placeholder="address"
             id="address"
+            onChange={handleChange}
+            value={formData.address}
             required
           />
 
           <div className=" flex  flex-col flex-1 gap-3">
             <div className="p-3 flex gap-2 flex-wrap">
               <div className=" flex items-center gap-2">
-                <input className="w-5 h-6" type="checkbox" />
-                <span className="text-lg ">sell</span>
+                <input
+                  className="w-5 h-6"
+                  type="checkbox"
+                  id="sale"
+                  onChange={handleChange}
+                  checked={formData.type === "sale"}
+                />
+                <span className="text-lg ">Sale</span>
               </div>
               <div className=" flex items-center gap-2">
-                <input className="w-5 h-6" type="checkbox" />
+                <input
+                  className="w-5 h-6"
+                  type="checkbox"
+                  id="rent"
+                  onChange={handleChange}
+                  checked={formData.type === "rent"}
+                />
                 <span className="text-lg ">Rent</span>
               </div>
               <div className=" flex items-center gap-2">
-                <input className="w-5 h-6" type="checkbox" />
+                <input
+                  className="w-5 h-6"
+                  type="checkbox"
+                  id="parking"
+                  onChange={handleChange}
+                  checked={formData.parking}
+                />
                 <span className="text-lg ">Parking Spot</span>
               </div>
               <div className=" flex items-center gap-2">
-                <input className="w-5 h-6" type="checkbox" />
+                <input
+                  className="w-5 h-6"
+                  type="checkbox"
+                  id="furnished"
+                  onChange={handleChange}
+                  checked={formData.furnished}
+                />
                 <span className="text-lg ">Furnished</span>
               </div>
               <div className=" flex items-center gap-2">
-                <input className="w-5 h-6" type="checkbox" />
+                <input
+                  className="w-5 h-6"
+                  type="checkbox"
+                  id="offer"
+                  onChange={handleChange}
+                  checked={formData.offer}
+                />
                 <span className="text-lg ">Offer</span>
               </div>
             </div>
@@ -126,6 +215,8 @@ const Listing = () => {
                   className="w-16 h-10 rounded-lg text-center"
                   type="number"
                   id="beds"
+                  onChange={handleChange}
+                  value={formData.bedrooms}
                 />
                 <span className="m-2 text-1xl ">Beds</span>
               </div>
@@ -133,28 +224,46 @@ const Listing = () => {
                 <input
                   className="w-16 h-10 rounded-lg text-center"
                   type="number"
-                  id="beds"
+                  id="baths"
+                  onChange={handleChange}
+                  value={formData.bathrooms}
                 />
                 <span className="m-2 text-1xl ">Baths</span>
               </div>
             </div>
-            <div className="my-5">
-              <div>
+            <div className="my-3">
+              <div className="flex items-center">
                 <input
                   className="w-18 h-10 rounded-lg text-center"
                   type="number"
-                  id="beds"
+                  id="regularPrice"
+                  onChange={handleChange}
+                  value={formData.regularPrice}
                 />
-                <span className="m-2 text-1xl ">Regular Price</span>
+                <div className="flex flex-col items-center">
+                  <p className="mx-2 text-1xl ">Regular Price</p>
+                  {formData.type === "rent" && (
+                    <span className="text-sm">($/month)</span>
+                  )}
+                </div>
               </div>
-              <div className="mt-5">
-                <input
-                  className="w-18 h-10 rounded-lg text-center"
-                  type="number"
-                  id="beds"
-                />
-                <span className="m-2 text-1xl ">Discount Price</span>
-              </div>
+              {formData.offer && (
+                <div className="mt-5 flex items-center">
+                  <input
+                    className="w-18 h-10 rounded-lg text-center"
+                    type="number"
+                    id="discountPrice"
+                    onChange={handleChange}
+                    value={formData.discountPrice}
+                  />
+                  <div className="flex flex-col items-center">
+                    <span className="mx-2 text-1xl ">Discount Price</span>
+                    {formData.type === "rent" && (
+                      <span className="text-sm">($/month)</span>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -175,9 +284,10 @@ const Listing = () => {
             <button
               type="button"
               onClick={handleFiles}
+              disabled={loading}
               className=" m-2 border p-3 rounded-md text-white bg-green-700  shadow-md "
             >
-              Upload
+              {loading ? "Loading..." : "Upload"}
             </button>
           </div>
           <p className="text-red-700 ml-2">{imageError && imageError}</p>

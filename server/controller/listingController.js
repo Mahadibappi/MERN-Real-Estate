@@ -1,3 +1,11 @@
+import Listing from "../models/listingModel.js";
 export const createList = async (req, res, next) => {
-  res.send("router is fine");
+  try {
+    const list = req.body;
+    const crateList = await Listing.create(list);
+    res.status(200).json(crateList);
+    res.send("listing created successful ");
+  } catch (error) {
+    next(error);
+  }
 };
