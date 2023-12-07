@@ -7,6 +7,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
+import { useSelector } from "react-redux";
 
 const Listing = () => {
   const [files, setFiles] = useState([]);
@@ -24,9 +25,10 @@ const Listing = () => {
     parking: false,
     furnished: false,
   });
-
+  const { currentUser } = useSelector((state) => state.user);
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   // image upload functions
   const handleFiles = (e) => {
@@ -86,8 +88,6 @@ const Listing = () => {
     });
   };
   // form submit functions
-  console.log(formData);
-
   const handleChange = (e) => {
     if (e.target.id === "sale" || e.target.id === "rent") {
       setFormData({
@@ -118,14 +118,45 @@ const Listing = () => {
       });
     }
   };
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (formData.imageUrls.length < 1) {
+        return setError("You must upload at least one image");
+      }
+      setLoading(true);
+      setError(false);
+      const url = "http://localhost:5000/api/listing/create";
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          userRef: currentUser._id,
+        }),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (data.success === false) {
+        setError(data.message);
+      }
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
 
   return (
     <main className="p-4 max-w-4xl mx-auto">
       <h1 className="text-center text-4xl p-3 font-semibold mt-5">
         Create Listing
       </h1>
-      <form className="flex flex-col sm:flex-row gap-6 p-2 mt-5">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col sm:flex-row gap-6 p-2 mt-5"
+      >
         {/* //description start  */}
         <div className=" flex flex-col flex-1 gap-3 mt-2">
           <input
@@ -214,7 +245,7 @@ const Listing = () => {
                 <input
                   className="w-16 h-10 rounded-lg text-center"
                   type="number"
-                  id="beds"
+                  id="bedrooms"
                   onChange={handleChange}
                   value={formData.bedrooms}
                 />
@@ -224,7 +255,7 @@ const Listing = () => {
                 <input
                   className="w-16 h-10 rounded-lg text-center"
                   type="number"
-                  id="baths"
+                  id="bathrooms"
                   onChange={handleChange}
                   value={formData.bathrooms}
                 />
@@ -312,8 +343,9 @@ const Listing = () => {
               </div>
             ))}
           <button className=" m-2 border p-3 rounded-md text-white bg-gray-600 hover:bg-gray-800 sm:w-10/12">
-            Crate Listing
+            {loading ? "Creating..." : " Crate Listing"}
           </button>
+          {error && <p className="text-red-700 ml-2">{error}</p>}
         </div>
       </form>
     </main>
