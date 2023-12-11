@@ -8,6 +8,8 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Listing = () => {
   const [files, setFiles] = useState([]);
@@ -29,7 +31,7 @@ const Listing = () => {
   const [imageError, setImageError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
+  const navigate = useNavigate();
   // image upload functions
   const handleFiles = (e) => {
     if (files.length > 0 && files.length < 7) {
@@ -78,6 +80,15 @@ const Listing = () => {
           });
         }
       );
+    });
+  };
+
+  //notification
+  const notify = () => {
+    toast.success("Listing created successfully", {
+      position: "top-right",
+      autoClose: 2000,
+      theme: "colored",
     });
   };
   // Image delete function
@@ -139,9 +150,12 @@ const Listing = () => {
       });
       const data = await res.json();
       setLoading(false);
+
       if (data.success === false) {
         setError(data.message);
       }
+      navigate(`/listing/${data._id}`);
+      notify();
     } catch (error) {
       setError(error.message);
       setLoading(false);
