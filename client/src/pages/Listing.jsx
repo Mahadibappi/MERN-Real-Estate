@@ -154,7 +154,7 @@ const Listing = () => {
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`/listing/${data._id}`);
+      navigate(`/listing/${currentUser._id}`);
       notify();
     } catch (error) {
       setError(error.message);
