@@ -7,13 +7,16 @@ import "swiper/css/bundle";
 import { FaBed, FaChair, FaParking } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FaBath } from "react-icons/fa6";
-import { MdLocalParking } from "react-icons/md";
-import { MdChair } from "react-icons/md";
+import { useSelector } from "react-redux";
+import Contact from "./Contact";
 const PreviewList = () => {
   SwiperCore.use([Navigation]);
+  const { currentUser } = useSelector((state) => state.user);
+
   const params = useParams();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [contact, setContact] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -93,7 +96,7 @@ const PreviewList = () => {
               <span className="font-semibold">Description - </span>
               {list.description}
             </p>
-            <ul className=" flex items-center mt-2 gap-4 text-green-700 sm:ml-[-40px] md:ml-[-235px] ">
+            <ul className=" flex items-center mt-2 gap-4 text-green-800 sm:ml-[-40px] md:ml-[-235px] ">
               <li className="flex  items-center gap-2 text-md ">
                 <FaBed className="text-3xl" />
                 {list.bedrooms > 1
@@ -115,6 +118,15 @@ const PreviewList = () => {
                 {list.furnished ? "furnished" : "not furnished"}
               </li>
             </ul>
+            {currentUser && list.userRef == currentUser._id && !contact && (
+              <button
+                onClick={() => setContact(true)}
+                className=" bg-cyan-500 text-white p-3 text-lg rounded-lg m-2"
+              >
+                Contact LandLord
+              </button>
+            )}
+            {contact && <Contact list={list} />}
           </>
         ))}
       </div>
