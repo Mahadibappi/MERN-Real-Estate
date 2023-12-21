@@ -8,7 +8,7 @@ import { FaBed, FaChair, FaParking } from "react-icons/fa";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { FaBath } from "react-icons/fa6";
 import { useSelector } from "react-redux";
-import Contact from "./Contact";
+import Contact from "./Contact.jsx";
 const PreviewList = () => {
   SwiperCore.use([Navigation]);
   const { currentUser } = useSelector((state) => state.user);
@@ -69,20 +69,20 @@ const PreviewList = () => {
       <div className="flex flex-col justify-center items-center max-w-4xl mx-auto p-3 my-5 gap-2">
         {listing?.map((list) => (
           // eslint-disable-next-line react/jsx-key
+
           <>
-            <p className="text-2xl text-white lg:ml-[-165px]">
+            <p className="text-2xl text-white sm:ml-[-8rem] lg:ml-[-20rem]">
               {list.name} - ${""}
               {list.offer
                 ? list.discountPrice.toLocaleString("en-US")
                 : list.regularPrice.toLocaleString("en-US")}
               {listing.type === "rent" && " / month"}
             </p>
-
-            <p className=" flex items-center sm:ml-[110px] md:ml-[115px] mx-auto  gap-2 text-md text-white p-2 ">
+            <p className=" flex items-center sm:ml-[100px] md:ml-[100px] mx-auto  gap-2 text-md text-white p-2 ">
               <FaMapMarkerAlt className="text-white" />
               {list.address}
             </p>
-            <div className=" flex items-center gap-4 mx-auto sm:ml-[125px] md:ml-[115px]">
+            <div className=" flex items-center gap-4 mx-auto sm:ml-[112px] md:ml-[115px]">
               <p className="text-sm bg-red-600 text-white px-3 py-1 rounded-md">
                 {list.type === "rent" ? "For Rent" : "For Sale"}
               </p>
