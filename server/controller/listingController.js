@@ -19,3 +19,7 @@ export const showListing = async (req, res, next) => {
     next(errorHandler(error.message));
   }
 };
+
+export const allListing = async (req, res, next) => {
+  res.send("all listing is here ");
+};
