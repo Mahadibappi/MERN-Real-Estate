@@ -1,11 +1,28 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const [searchTerm, setSearch] = useState("");
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchFromUrl = urlParams.get("searchTerm");
+    if (searchFromUrl) {
+      setSearch(searchFromUrl);
+    }
+  }, [location.search]);
 
   return (
     <header>
@@ -15,11 +32,16 @@ const Header = () => {
             Modern <span className="text-slate-100">Estate</span>
           </h1>
         </Link>
-        <form className="bg-transparent flex justify-end items-center relative">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-transparent flex justify-end items-center relative"
+        >
           <input
             type="text"
             placeholder="Search...
             "
+            value={searchTerm}
+            onChange={(e) => setSearch(e.target.value)}
             className=" focus:outline-none w-full h-6 rounded-full p-4 cursor-pointer"
           />
           <AiOutlineSearch className="h-5 w-5 absolute text-gray-400 mr-5 focus-within:text-gray-700 pointer-events-none" />
