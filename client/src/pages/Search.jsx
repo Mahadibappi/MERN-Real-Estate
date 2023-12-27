@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 const Search = () => {
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
@@ -10,12 +11,93 @@ const Search = () => {
     sort: "created_at",
     order: "desc",
   });
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const handleChange = (e) => {
+    const inputId = e.target.id;
+    if (inputId === "all" || inputId === "sale" || inputId === "rent") {
+      setSidebarData({ ...sidebarData, type: inputId });
+    }
+    if (inputId === "searchTerm") {
+      setSidebarData({ ...sidebarData, searchTerm: e.target.value });
+    }
 
-  const handleChange = (e) => {};
+    if (
+      inputId === "parking" ||
+      inputId === "furnished" ||
+      inputId === "offer"
+    ) {
+      setSidebarData({
+        ...sidebarData,
+        [inputId]:
+          e.target.checked || e.target.checked === "true" ? true : false,
+      });
+    }
+    if (inputId === "sort_order") {
+      const sort = e.target.value.split("_")[0] || "created_at";
+      const order = e.target.value.split("_")[1] || "desc";
+      setSidebarData({ ...sidebarData, sort, order });
+    }
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    const typeFromUrl = urlParams.get("type");
+    const parkingFromUrl = urlParams.get("parking");
+    const furnishedFromUrl = urlParams.get("furnished");
+    const offerFromUrl = urlParams.get("offer");
+    const sortFromUrl = urlParams.get("sort");
+    const orderFromUrl = urlParams.get("order");
+    if (
+      searchTermFromUrl ||
+      typeFromUrl ||
+      parkingFromUrl ||
+      furnishedFromUrl ||
+      offerFromUrl ||
+      sortFromUrl ||
+      orderFromUrl
+    ) {
+      setSidebarData({
+        searchTerm: searchTermFromUrl || "",
+        type: typeFromUrl || "all",
+        parking: parkingFromUrl === "true" ? true : false,
+        furnished: furnishedFromUrl === "true" ? true : false,
+        offer: offerFromUrl === "true" ? true : false,
+        sort: sortFromUrl || "created_at",
+        order: orderFromUrl || "desc",
+      });
+    }
+    const fetchListings = async () => {
+      setLoading(true);
+      const searchQuery = urlParams.toString();
+      const res = await fetch(
+        `http://localhost:5000/api/listing/getall?${searchQuery}`
+      );
+      const data = await res.json();
+      console.log(data);
+      setLoading(false);
+    };
+    fetchListings();
+  }, [location.search]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams();
+    urlParams.set("searchTerm", sidebarData.searchTerm);
+    urlParams.set("type", sidebarData.type);
+    urlParams.set("parking", sidebarData.parking);
+    urlParams.set("furnished", sidebarData.furnished);
+    urlParams.set("offer", sidebarData.offer);
+    urlParams.set("sort", sidebarData.sort);
+    urlParams.set("order", sidebarData.order);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
   return (
     <div className="flex flex-col md:flex-row ">
       <div className="p-3 text-slate-100 border-slate-600 border-b-2 md:border-r-2 md:min-h-screen">
-        <form className="flex flex-col gap-8">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className=" flex items-center gap-2">
             <label
               className="p-2 text-lg text-slate-800 font-semibold"
@@ -24,10 +106,10 @@ const Search = () => {
               Search here
             </label>
             <input
-              className=" p-1 rounded-lg"
+              className=" p-1 rounded-lg text-blue-400"
               type="text"
               name="search"
-              id="search"
+              id="searchTerm"
               placeholder="Search..."
               value={sidebarData.searchTerm}
               onChange={handleChange}
@@ -107,13 +189,15 @@ const Search = () => {
             <label className="text-slate-800 font-semibold">Sort:</label>
             <select
               name="options"
+              onChange={handleChange}
+              defaultValue={"created_at_desc"}
               id="sort_order"
               className=" border rounded-lg text-blue-400 p-1"
             >
-              <option value="">Price high to low</option>
-              <option value="">Price low to high</option>
-              <option value="">Latest</option>
-              <option value="">Oldest</option>
+              <option value="regularPrice_desc">Price high to low</option>
+              <option value="regularPrice_asc">Price low to high</option>
+              <option value="createdAt_desc">Latest</option>
+              <option value="createdAt_asc">Oldest</option>
             </select>
           </div>
           <button className="  bg-green-600 p-3 rounded-lg">Search</button>

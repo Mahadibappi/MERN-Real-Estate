@@ -71,7 +71,7 @@ const PreviewList = () => {
           // eslint-disable-next-line react/jsx-key
 
           <>
-            <p className="text-2xl text-white sm:ml-[-8rem] lg:ml-[-20rem]">
+            <p className="text-2xl text-white sm:ml-[-8rem] lg:ml-[-12rem]">
               {list.name} - ${""}
               {list.offer
                 ? list.discountPrice.toLocaleString("en-US")
