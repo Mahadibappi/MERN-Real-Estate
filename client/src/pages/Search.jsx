@@ -1,6 +1,8 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import HouseCard from "../components/HouseCard.jsx";
 const Search = () => {
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
@@ -13,6 +15,9 @@ const Search = () => {
   });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [house, setHouse] = useState([]);
+
+  // event handler functions
   const handleChange = (e) => {
     const inputId = e.target.id;
     if (inputId === "all" || inputId === "sale" || inputId === "rent") {
@@ -68,6 +73,8 @@ const Search = () => {
         order: orderFromUrl || "desc",
       });
     }
+
+    // data loading functions
     const fetchListings = async () => {
       setLoading(true);
       const searchQuery = urlParams.toString();
@@ -75,7 +82,7 @@ const Search = () => {
         `http://localhost:5000/api/listing/getall?${searchQuery}`
       );
       const data = await res.json();
-      console.log(data);
+      setHouse(data);
       setLoading(false);
     };
     fetchListings();
@@ -96,7 +103,7 @@ const Search = () => {
   };
   return (
     <div className="flex flex-col md:flex-row ">
-      <div className="p-3 text-slate-100 border-slate-600 border-b-2 md:border-r-2 md:min-h-screen">
+      <div className="p-5 ml-4 text-slate-100 border-slate-600 border-b-2 md:border-r-2 md:min-h-screen">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className=" flex items-center gap-2">
             <label
@@ -203,7 +210,23 @@ const Search = () => {
           <button className="  bg-green-600 p-3 rounded-lg">Search</button>
         </form>
       </div>
-      <div className=""> list of houses</div>
+
+      {/* // display of house data functions */}
+      <div className="flex-1 ml-5">
+        <h1 className="p-2 m-2 text-3xl text-slate-100 text-center">
+          Modern Homes
+        </h1>
+
+        <div className="flex flex-wrap gap-2 p-6 sm:justify-center lg:justify-start">
+          {!loading && house.length === 0 && <p>No Result Found</p>}
+
+          {loading && <p>Loading...</p>}
+
+          {!loading &&
+            house &&
+            house?.map((list) => <HouseCard key={list._id} list={list} />)}
+        </div>
+      </div>
     </div>
   );
 };
