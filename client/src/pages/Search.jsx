@@ -4,6 +4,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import HouseCard from "../components/HouseCard.jsx";
 const Search = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [house, setHouse] = useState([]);
+  const [showMore, setShowMore] = useState(false);
   const [sidebarData, setSidebarData] = useState({
     searchTerm: "",
     type: "all",
@@ -13,9 +17,6 @@ const Search = () => {
     sort: "created_at",
     order: "desc",
   });
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [house, setHouse] = useState([]);
 
   // event handler functions
   const handleChange = (e) => {
@@ -77,11 +78,16 @@ const Search = () => {
     // data loading functions
     const fetchListings = async () => {
       setLoading(true);
+      setShowMore(false);
       const searchQuery = urlParams.toString();
       const res = await fetch(
         `http://localhost:5000/api/listing/getall?${searchQuery}`
       );
       const data = await res.json();
+      if (data.length > 8) {
+        setShowMore(true);
+      }
+      setShowMore(false);
       setHouse(data);
       setLoading(false);
     };
@@ -100,6 +106,21 @@ const Search = () => {
     urlParams.set("order", sidebarData.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+  };
+  const showMoreData = async () => {
+    const numberOfHouse = house.length;
+    const startIndex = numberOfHouse;
+    const urlParams = new URLSearchParams(location.search);
+    urlParams.set("startIndex", startIndex);
+    const searchQuery = urlParams.toString();
+    const res = await fetch(
+      `http://localhost:5000/api/listing/getall?${searchQuery}`
+    );
+    const data = await res.json();
+    if (data.length < 9) {
+      setShowMore(false);
+    }
+    setHouse([...house, ...data]);
   };
   return (
     <div className="flex flex-col md:flex-row ">
@@ -225,6 +246,14 @@ const Search = () => {
           {!loading &&
             house &&
             house?.map((list) => <HouseCard key={list._id} list={list} />)}
+          {showMore && (
+            <button
+              onClick={showMoreData}
+              className="text-green-700 text-center w-full"
+            >
+              Show More
+            </button>
+          )}
         </div>
       </div>
     </div>
