@@ -27,15 +27,15 @@ const Header = () => {
 
   return (
     <header>
-      <nav className="bg-gray-500 flex justify-around items-center  mx-auto py-3">
+      <nav className="bg-[#0C101C]  flex justify-around items-center  mx-auto py-3">
         <Link to="/">
-          <h1 className="font-bold text-2xl py-4 ml-20 flex flex-wrap">
-            Modern <span className="text-slate-100">Estate</span>
+          <h1 className="font-semi-bold text-[#dee0e7] text-2xl py-4 ml-20 flex flex-wrap">
+            Home <span className="">Land</span>
           </h1>
         </Link>
         <form
           onSubmit={handleSubmit}
-          className="bg-transparent flex justify-end items-center relative"
+          className="bg-[#0C101C] flex justify-end items-center relative"
         >
           <input
             type="text"
@@ -48,8 +48,8 @@ const Header = () => {
           <AiOutlineSearch className="h-5 w-5 absolute text-gray-400 mr-5 focus-within:text-gray-700 pointer-events-none" />
         </form>
 
-        <ul className="flex gap-4 text-gray-200 text-xl cursor-pointer">
-          <Link to="/home">
+        <ul className="flex gap-4 text-gray-200 text-md cursor-pointer">
+          <Link to="/">
             <li className="hidden sm:inline">Home</li>
           </Link>
           <Link to="/about">

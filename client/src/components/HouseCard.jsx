@@ -7,7 +7,7 @@ import { ImLocation2 } from "react-icons/im";
 const HouseCard = ({ list }) => {
   return (
     <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]">
-      <Link to={`/list/${list._id}`}>
+      <Link to={`/listing/${list._id}`}>
         <img
           src={
             list.imageUrls[0] ||
