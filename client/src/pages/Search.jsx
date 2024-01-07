@@ -124,7 +124,7 @@ const Search = () => {
   };
   return (
     <div className="flex flex-col md:flex-row ">
-      <div className="p-5 ml-4 text-slate-100 border-slate-600 border-b-2 md:border-r-2 md:min-h-screen">
+      <div className="p-5 ml-4 mt-9 text-slate-700 border-slate-500 border-b-2 md:border-r-2 md:min-h-screen">
         <form onSubmit={handleSubmit} className="flex flex-col gap-8">
           <div className=" flex items-center gap-2">
             <label
@@ -134,7 +134,7 @@ const Search = () => {
               Search here
             </label>
             <input
-              className=" p-1 rounded-lg text-blue-400"
+              className=" p-1 rounded-lg text-slate-800"
               type="text"
               name="search"
               id="searchTerm"
@@ -155,7 +155,7 @@ const Search = () => {
                 className="w-4 h-4 "
                 id="all"
               />
-              <span>Sale & Rent</span>
+              <span className="text-slate-700">Sale & Rent</span>
             </div>
             <div className=" flex items-center gap-2">
               <input
@@ -165,7 +165,7 @@ const Search = () => {
                 onChange={handleChange}
                 checked={sidebarData.type === "sale"}
               />
-              <span>Sale</span>
+              <span className="text-slate-700">Sale</span>
             </div>
             <div className=" flex items-center gap-2">
               <input
@@ -175,7 +175,7 @@ const Search = () => {
                 onChange={handleChange}
                 checked={sidebarData.type === "rent"}
               />
-              <span>Rent</span>
+              <span className="text-slate-700">Rent</span>
             </div>
             <div className=" flex items-center gap-2">
               <input
@@ -185,7 +185,7 @@ const Search = () => {
                 onChange={handleChange}
                 checked={sidebarData.offer}
               />
-              <span>Offer</span>
+              <span className="text-slate-700">Offer</span>
             </div>
           </div>
           <div className=" flex gap-2 p-2 ">
@@ -200,7 +200,7 @@ const Search = () => {
                 className="w-4 h-4 "
                 id="parking"
               />
-              <span>Parking</span>
+              <span className="text-slate-700">Parking</span>
             </div>
             <div className=" flex items-center gap-2">
               <input
@@ -210,7 +210,7 @@ const Search = () => {
                 className="w-4 h-4"
                 id="furnished"
               />
-              <span>Furnished</span>
+              <span className="text-slate-700">Furnished</span>
             </div>
           </div>
           <div className="flex items-center gap-2 p-3">
@@ -220,7 +220,7 @@ const Search = () => {
               onChange={handleChange}
               defaultValue={"created_at_desc"}
               id="sort_order"
-              className=" border rounded-lg text-blue-400 p-1"
+              className=" border rounded-lg text-slate-700 p-1"
             >
               <option value="regularPrice_desc">Price high to low</option>
               <option value="regularPrice_asc">Price low to high</option>
@@ -228,13 +228,15 @@ const Search = () => {
               <option value="createdAt_asc">Oldest</option>
             </select>
           </div>
-          <button className="  bg-green-600 p-3 rounded-lg">Search</button>
+          <button className="  bg-green-600 p-3 text-slate-200 rounded-lg">
+            Search
+          </button>
         </form>
       </div>
 
       {/* // display of house data functions */}
       <div className="flex-1 ml-5">
-        <h1 className="p-2 m-2 text-3xl text-slate-100 text-center">
+        <h1 className="p-2 m-2 text-3xl text-slate-700 text-center">
           Modern Homes
         </h1>
 

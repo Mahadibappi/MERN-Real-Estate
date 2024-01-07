@@ -330,7 +330,7 @@ const Listing = () => {
               type="button"
               onClick={handleFiles}
               disabled={loading}
-              className=" m-2 border p-3 rounded-md text-white bg-green-700  shadow-md "
+              className=" m-2 border p-3 rounded-md text-slate-800 bg-green-700  shadow-md "
             >
               {loading ? "Loading..." : "Upload"}
             </button>
@@ -339,7 +339,7 @@ const Listing = () => {
           {formData.imageUrls.length > 0 &&
             formData.imageUrls.map((url, index) => (
               <div
-                className=" flex justify-between p-3 items-center border rounded-lg ml-2 w-10/12 h-1/4"
+                className=" flex justify-between p-3 items-center border border-slate-700 rounded-lg ml-2 w-10/12 h-1/4"
                 key={index}
               >
                 <img
