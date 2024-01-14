@@ -206,7 +206,7 @@ const Profile = () => {
             notify("Account deleted successfully");
             handleDelete();
           }}
-          className="bg-red-500 p-2 rounded-full  text-gray-300 m-1 cursor-pointer"
+          className="bg-red-500 p-2 rounded-full  text-white m-1 cursor-pointer"
         >
           Delete Account
         </span>

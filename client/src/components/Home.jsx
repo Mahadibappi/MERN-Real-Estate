@@ -8,7 +8,6 @@ const Home = () => {
   const [offerList, setOfferList] = useState([]);
   const [salesList, setSalesList] = useState([]);
   const [rentList, setRentList] = useState([]);
-  console.log(offerList);
 
   useEffect(() => {
     const fetchOfferList = async () => {
@@ -56,9 +55,11 @@ const Home = () => {
           src="https://img.freepik.com/premium-photo/street-view-modern-architecture-along-haihe-river-tianjin_1417-10131.jpg?w=900"
           alt="image"
         />
-        <div className="text-center text-slate-300 p-36">
-          <h1 className="text-6xl font-semibold">Find Your Dream Home Here</h1>
-          <p className="text-xl m-4 text-[#a3a5f1]">
+        <div className="text-center text-slate-300 p-36 ">
+          <h1 className="md:text-6xl sm:text-4xl font-semibold ">
+            Find Your Dream Home Here
+          </h1>
+          <p className="md:text-xl sm:text-sm m-4 text-[#a3a5f1] ">
             Home land offers you best homes in this city select your best choice
           </p>
           <Link to={"/search"}>
@@ -69,15 +70,35 @@ const Home = () => {
         </div>
       </div>
       {/* data cards section */}
-      <div className="max-w-6xl mx-auto flex flex-col">
+      <div className="max-w-6xl mx-auto flex flex-col md:p-full sm:p-10 ">
         <div className="p-3 my-2">
           <div className="">
             <h2 className="text-xl text-slate-800">Recent Offers</h2>
             <Link to={"/search?offer=true"}>Show more offers</Link>
           </div>
-          <div className="flex gap-6">
+          <div className="flex gap-6 flex-wrap">
             {offerList &&
               offerList.map((list) => <HouseCard list={list} key={list._id} />)}
+          </div>
+        </div>
+        <div className="p-3 my-2">
+          <div className="">
+            <h2 className="text-xl text-slate-800">House For Rent</h2>
+            <Link to={"/search?offer=true"}>Show more offers</Link>
+          </div>
+          <div className="flex gap-6 flex-wrap">
+            {rentList &&
+              rentList.map((list) => <HouseCard list={list} key={list._id} />)}
+          </div>
+        </div>
+        <div className="p-3 my-2">
+          <div className="">
+            <h2 className="text-xl text-slate-800">House For Sales</h2>
+            <Link to={"/search?offer=true"}>Show more offers</Link>
+          </div>
+          <div className="flex gap-6 flex-wrap">
+            {salesList &&
+              salesList.map((list) => <HouseCard list={list} key={list._id} />)}
           </div>
         </div>
       </div>

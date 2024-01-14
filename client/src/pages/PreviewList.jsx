@@ -18,7 +18,7 @@ const PreviewList = () => {
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState(false);
   const [error, setError] = useState(false);
-
+  console.log(listing);
   useEffect(() => {
     const ListingFetch = async () => {
       try {
@@ -71,28 +71,28 @@ const PreviewList = () => {
           // eslint-disable-next-line react/jsx-key
 
           <>
-            <p className="text-2xl text-white sm:ml-[-8rem] lg:ml-[-12rem]">
+            <p className="text-2xl text-slate-800 sm:ml-[-8rem] lg:ml-[-12rem]">
               {list.name} - ${""}
               {list.offer
                 ? list.discountPrice.toLocaleString("en-US")
                 : list.regularPrice.toLocaleString("en-US")}
               {listing.type === "rent" && " / month"}
             </p>
-            <p className=" flex items-center sm:ml-[100px] md:ml-[100px] mx-auto  gap-2 text-md text-white p-2 ">
-              <FaMapMarkerAlt className="text-white" />
+            <p className=" flex items-center sm:ml-[100px] md:ml-[100px] mx-auto  gap-2 text-md text-slate-800 p-2 ">
+              <FaMapMarkerAlt className="text-slate-800" />
               {list.address}
             </p>
             <div className=" flex items-center gap-4 mx-auto sm:ml-[112px] md:ml-[115px]">
-              <p className="text-sm bg-red-600 text-white px-3 py-1 rounded-md">
+              <p className="text-sm bg-red-600 text-slate-800 px-3 py-1 rounded-md">
                 {list.type === "rent" ? "For Rent" : "For Sale"}
               </p>
               {list.offer && (
-                <p className="text-sm bg-green-600 text-white px-3 py-1  rounded-md">
+                <p className="text-sm bg-green-600 text-slate-800 px-3 py-1  rounded-md">
                   Discount ${+list.regularPrice - +list.discountPrice} Off
                 </p>
               )}
             </div>
-            <p className=" text-sm sm:ml-[115px] lg:ml-[115px] text-slate-200">
+            <p className=" text-sm sm:ml-[115px] lg:ml-[115px] text-slate-800">
               <span className="font-semibold">Description - </span>
               {list.description}
             </p>
@@ -121,7 +121,7 @@ const PreviewList = () => {
             {currentUser && list.userRef == currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}
-                className=" bg-cyan-500 text-white p-3 text-lg rounded-lg m-2"
+                className=" bg-cyan-500 text-slate-800 p-3 text-lg rounded-lg m-2"
               >
                 Contact LandLord
               </button>
