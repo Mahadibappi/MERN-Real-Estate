@@ -63,12 +63,16 @@ const Home = () => {
             Home land offers you best homes in this city select your best choice
           </p>
           <Link to={"/search"}>
-            <button className=" bg-[#df1f0e] px-4 py-2 rounded-lg text-xl mt-4 opacity-80 shadow-lg shadow-rose-600/50 ">
-              Let's start
+            <button className="px-5 py-2.5 relative rounded group overflow-hidden font-medium bg-purple-50 text-purple-600 inline-block mt-10">
+              <span className="absolute top-0 left-0 flex w-full h-0 mb-0 transition-all duration-200 ease-out transform translate-y-0 bg-purple-600 group-hover:h-full opacity-90"></span>
+              <span className="relative group-hover:text-white uppercase">
+                Let's Start
+              </span>
             </button>
           </Link>
         </div>
       </div>
+
       {/* data cards section */}
       <div className="max-w-6xl mx-auto flex flex-col md:p-full sm:p-10 ">
         <div className="p-3 my-2">
