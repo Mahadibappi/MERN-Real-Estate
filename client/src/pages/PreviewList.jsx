@@ -18,7 +18,7 @@ const PreviewList = () => {
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState(false);
   const [error, setError] = useState(false);
-  console.log(listing);
+
   useEffect(() => {
     const ListingFetch = async () => {
       try {
@@ -66,7 +66,7 @@ const PreviewList = () => {
           </Swiper>
         </div>
       )}
-      <div className="flex flex-col justify-center items-center max-w-4xl mx-auto p-3 my-5 gap-2">
+      <div className="flex flex-col justify-center items-center max-w-4xl mx-auto p-3 my-5 gap-2 ">
         {listing?.map((list) => (
           // eslint-disable-next-line react/jsx-key
 

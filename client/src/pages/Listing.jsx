@@ -69,7 +69,6 @@ const Listing = () => {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log(`Upload is ${progress}% done`);
         },
         (error) => {
           reject(error);
@@ -150,11 +149,11 @@ const Listing = () => {
       });
       const data = await res.json();
       setLoading(false);
-
+      console.log(data.userRef);
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`/listing/${currentUser._id}`);
+      navigate(`/listing/${data.userRef}`);
       notify();
     } catch (error) {
       setError(error.message);
@@ -165,7 +164,7 @@ const Listing = () => {
   return (
     <main className="p-4 max-w-4xl mx-auto">
       <h1 className="text-center text-4xl p-3 font-semibold mt-5">
-        Create Listing
+        Create New Home
       </h1>
       <form
         onSubmit={handleSubmit}
@@ -356,7 +355,7 @@ const Listing = () => {
                 </button>
               </div>
             ))}
-          <button className=" m-2 border p-3 rounded-md text-white bg-gray-600 hover:bg-gray-800 sm:w-10/12">
+          <button className=" bg-gradient-to-tr from-cyan-500 to-blue-400 m-2 border p-3 rounded-md text-white transition-all duration-200  hover:bg-blue-800 sm:w-10/12">
             {loading ? "Creating..." : " Crate Listing"}
           </button>
           {error && <p className="text-red-700 ml-2">{error}</p>}

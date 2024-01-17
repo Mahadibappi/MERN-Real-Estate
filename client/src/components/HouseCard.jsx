@@ -3,13 +3,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ImLocation2 } from "react-icons/im";
-import { useSelector } from "react-redux";
 
 const HouseCard = ({ list }) => {
-  const { currentUser } = useSelector((state) => state.user);
+  console.log(list.userRef);
   return (
     <div className="bg-white shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]">
-      <Link to={`/listing/${currentUser._id}`}>
+      <Link to={`/listing/${list.userRef}`}>
         <img
           src={
             list.imageUrls[0] ||

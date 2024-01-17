@@ -196,7 +196,7 @@ const Profile = () => {
         </button>
         <Link to="/create-listing">
           <button className="mt-2 bg-gray-600 w-full p-2 rounded-full text-white font-semibold">
-            Create Listing
+            Create Home
           </button>
         </Link>
       </form>
@@ -206,13 +206,13 @@ const Profile = () => {
             notify("Account deleted successfully");
             handleDelete();
           }}
-          className="bg-red-500 p-2 rounded-full  text-white m-1 cursor-pointer"
+          className="bg-red-500 px-3 py-2 rounded-full  text-white m-1 cursor-pointer"
         >
           Delete Account
         </span>
         <span
           onClick={handleLogOut}
-          className="bg-green-500 p-2 px-4 rounded-full  text-gray-300 m-1 cursor-pointer"
+          className="bg-green-500 px-3 py-2 rounded-full  text-white m-1 cursor-pointer"
         >
           Log Out
         </span>
