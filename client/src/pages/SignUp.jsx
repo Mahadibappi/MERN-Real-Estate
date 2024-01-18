@@ -22,7 +22,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const url = "http://localhost:5000/api/user/signup";
+      const url = "https://realestate-ibux.onrender.com/api/user/signup";
       const res = await fetch(url, {
         method: "POST",
         headers: {

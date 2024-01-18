@@ -13,7 +13,7 @@ const Home = () => {
     const fetchOfferList = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/listing/getall?offer=true&limit=4"
+          "https://realestate-ibux.onrender.com/api/listing/getall?offer=true&limit=4"
         );
         const data = await res.json();
         setOfferList(data);
@@ -25,7 +25,7 @@ const Home = () => {
     const fetchRentList = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/listing/getall?type=rent&limit=4"
+          "https://realestate-ibux.onrender.com/api/listing/getall?type=rent&limit=4"
         );
         const data = await res.json();
         setRentList(data);
@@ -37,7 +37,7 @@ const Home = () => {
     const fetchSalesList = async () => {
       try {
         const res = await fetch(
-          "http://localhost:5000/api/listing/getall?type=sale&limit=4"
+          "https://realestate-ibux.onrender.com/api/listing/getall?type=sale&limit=4"
         );
         const data = await res.json();
         setSalesList(data);

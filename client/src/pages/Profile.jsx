@@ -78,7 +78,7 @@ const Profile = () => {
     try {
       dispatch(userUpdateStart());
       const res = await fetch(
-        `http://localhost:5000/api/user/update/${currentUser._id}`,
+        `https://realestate-ibux.onrender.com/api/user/update/${currentUser._id}`,
         {
           method: "POST",
           headers: {
@@ -103,7 +103,7 @@ const Profile = () => {
   const handleLogOut = async () => {
     try {
       dispatch(logOutStart());
-      const url = "http://localhost:5000/api/user/signuot";
+      const url = "https://realestate-ibux.onrender.com/api/user/signuot";
       const res = await fetch(url);
       const data = await res.json();
       if (data.success === false) {
@@ -120,7 +120,7 @@ const Profile = () => {
   const handleDelete = async () => {
     try {
       dispatch(deleteStart());
-      const url = `http://localhost:5000/api/user/delete/${currentUser._id}`;
+      const url = `https://realestate-ibux.onrender.com/api/user/delete/${currentUser._id}`;
       const res = await fetch(url, {
         method: "DELETE",
       });

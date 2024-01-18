@@ -30,7 +30,7 @@ const Login = () => {
     e.preventDefault();
     try {
       dispatch(singInStart());
-      const url = "http://localhost:5000/api/user/signin";
+      const url = "https://realestate-ibux.onrender.com/api/user/signin";
       const res = await fetch(url, {
         method: "POST",
         headers: {

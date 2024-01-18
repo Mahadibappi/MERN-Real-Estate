@@ -81,7 +81,7 @@ const Search = () => {
       setShowMore(false);
       const searchQuery = urlParams.toString();
       const res = await fetch(
-        `http://localhost:5000/api/listing/getall?${searchQuery}`
+        `https://realestate-ibux.onrender.com/api/listing/getall?${searchQuery}`
       );
       const data = await res.json();
       if (data.length > 8) {
@@ -114,7 +114,7 @@ const Search = () => {
     urlParams.set("startIndex", startIndex);
     const searchQuery = urlParams.toString();
     const res = await fetch(
-      `http://localhost:5000/api/listing/getall?${searchQuery}`
+      `https://realestate-ibux.onrender.com/api/listing/getall?${searchQuery}`
     );
     const data = await res.json();
     if (data.length < 9) {

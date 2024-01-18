@@ -14,7 +14,7 @@ const Oauth = () => {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
-      const url = "http://localhost:5000/api/user/google";
+      const url = "https://realestate-ibux.onrender.com/api/user/google";
       const res = await fetch(url, {
         method: "POST",
         headers: {

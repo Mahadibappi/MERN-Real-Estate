@@ -23,7 +23,7 @@ const PreviewList = () => {
     const ListingFetch = async () => {
       try {
         setLoading(true);
-        const url = `http://localhost:5000/api/listing/showListing/${params.listingId}`;
+        const url = `https://realestate-ibux.onrender.com/api/listing/showListing/${params.listingId}`;
         const res = await fetch(url);
         const data = await res.json();
 

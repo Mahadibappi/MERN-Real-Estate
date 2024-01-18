@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:5000"],
+    origin: ["https://realestate-ibux.onrender.com"],
     credentials: true,
   })
 );

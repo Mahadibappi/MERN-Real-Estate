@@ -13,7 +13,7 @@ const Contact = ({ list }) => {
   useEffect(() => {
     const fetchLandlord = async () => {
       try {
-        const url = `http://localhost:5000/api/user/${list?.userRef}`;
+        const url = `https://realestate-ibux.onrender.com/api/user/${list?.userRef}`;
         const res = await fetch(url);
         const data = await res.json();
         setLandLord(data);

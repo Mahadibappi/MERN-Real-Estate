@@ -136,7 +136,7 @@ const Listing = () => {
       }
       setLoading(true);
       setError(false);
-      const url = "http://localhost:5000/api/listing/create";
+      const url = "https://realestate-ibux.onrender.com/api/listing/create";
       const res = await fetch(url, {
         method: "POST",
         headers: {
