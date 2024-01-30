@@ -11,6 +11,7 @@ import {
   singInStart,
 } from "../redux/user/userSlice";
 import Oauth from "../components/Oauth.jsx";
+import image from "../assets/login2.jpg";
 
 const Login = () => {
   const [visible, setVisible] = useState("");
@@ -57,9 +58,8 @@ const Login = () => {
         <div
           className="h-full w-full bg-[100%] "
           style={{
-            backgroundImage: `url(
-              https://img.freepik.com/free-photo/abstract-digital-grid-black-background_53876-97647.jpg?w=900&t=st=1695564871~exp=1695565471~hmac=4fbe38826442c0a07cec3412127bd88d230f1cee0186b9038a1a1e4046ee4c85
-            )`,
+            backgroundImage: `url(${image})`,
+            backgroundSize: "cover",
           }}
         ></div>
 

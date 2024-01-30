@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import HouseCard from "./HouseCard";
+import banner from "../assets/banner.jpg";
 
 const Home = () => {
   const [offerList, setOfferList] = useState([]);
@@ -52,7 +53,7 @@ const Home = () => {
       <div className="h-[550px] w-full relative bg-gradient-to-r from-[#383a39] to-[#383a39] ">
         <img
           className="object-cover w-full h-full absolute mix-blend-overlay rounded-md opacity-65 "
-          src="https://img.freepik.com/premium-photo/street-view-modern-architecture-along-haihe-river-tianjin_1417-10131.jpg?w=900"
+          src={banner}
           alt="image"
         />
         <div className="text-center text-slate-300 p-36 ">
